@@ -1,1 +1,1 @@
-# CSE278mipsassembler
+# Simplified MIPS assembler for CSE278
