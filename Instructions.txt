@@ -1,0 +1,18 @@
+Mnemonic, Meaning, Type, Opcode, Funct
+lw, Load Word, I, 0x23, NA
+sw, Store Word, I, 0x2B, NA
+add, Add, R, 0x00, 0x20
+sub, Subtract, R, 0x00, 0x22
+addi, Add Immediate, I, 0x08, NA
+or, Bitwise OR, R, 0x00, 0x25
+and, Bitwise AND, R, 0x00, 0x24
+ori, Bitwise OR Immediate, I, 0x0D, NA
+andi, Bitwise AND Immediate, I, 0x0C, NA
+slt, Set to 1 if Less Than, R, 0x00, 0x2A
+slti, Set to 1 if Less Than Immediate, I, 0x0A, NA
+sll, Logical Shift Left, R, 0x00, 0x00
+srl, Logical Shift Right (0-extended), R, 0x00, 0x02
+beq, Branch if Equal, I, 0x04, NA
+j, Jump to Address, J, 0x02, NA
+jr,Jump to Address in Register, R, 0x00, 0x08
+jal,Jump and Link, J, 0x03, NA
