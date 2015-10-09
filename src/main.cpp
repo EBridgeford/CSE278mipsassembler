@@ -6,5 +6,5 @@ int main() {
   //std::vector<std::string> hexStrings = assembler.translateInstructions(instructions);
 
   // Write hexStrings to file.txt
-  
+
 }
