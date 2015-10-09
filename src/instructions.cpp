@@ -23,17 +23,4 @@ void iTypeAssemble (std::vector<std::string> instruction) {
 void rTypeAssemble (std::vector<std::string> instruction) {
 
 
-}
-
-int main() {
-
-  std::vector<std::string> iType {"lw", "$t0", "$t1", "Address"};
-
-  //iTypeAssemble(iType);
-
-  auto search = rType.find("and");
-  std::cout << search->first << std::endl;
-  std::cout << std::get<0>(search->second) << std::endl;
-  std::cout << std::get<1>(search->second) << std::endl;
-
-}
+}s
