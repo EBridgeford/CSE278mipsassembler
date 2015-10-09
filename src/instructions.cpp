@@ -23,4 +23,4 @@ void iTypeAssemble (std::vector<std::string> instruction) {
 void rTypeAssemble (std::vector<std::string> instruction) {
 
 
-}s
+}
