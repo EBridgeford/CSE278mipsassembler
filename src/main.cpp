@@ -1,4 +1,4 @@
-int main() {
+//int main() {
 
   //Parser parser;
   //std::vector<std::string> instructions = std::parser.readfile("filepath");
@@ -7,4 +7,4 @@ int main() {
 
   // Write hexStrings to file.txt
 
-}
+//}

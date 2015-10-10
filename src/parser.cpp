@@ -3,7 +3,8 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-
+#include <vector>
+#include <regex>
 
 std::vector<std::string> readFile(std::string filename) {
 
@@ -12,68 +13,50 @@ std::vector<std::string> readFile(std::string filename) {
   std::string tempLine;
   std::vector<std::string> stringVector;
 
-    while (!readFile.eof()) {
-      getline(readFile, tempLine);
-      stringVector.push_back(tempLine);
-      }
+  while (!readFile.eof()) {
+    getline(readFile, tempLine);
+    stringVector.push_back(tempLine);
+  }
+  
+  stringVector.shrink_to_fit();
 
-stringVector.shrink_to_fit();
-
-return stringVector;
+  return stringVector;
 }
 
 //Returns a 2D vector of strings
-
 std::vector< std::vector<std::string> > parseFile(std::vector<std::string> file) {
 
-std::vector< std::vector<std::string>> ret(5);
+  std::vector< std::vector<std::string>> ret;
 
-for (int i = 0; i < file.size(); i++) {
+  //lw $ra,0($sp)
+  //sw $ra,0($sp)
+  //add $a0,$v0,$zero
+  //sub $a0,$v0,$zero
+  //addi $t1, $t1, 1
+  for (int i = 0; i < file.size(); i++) {
+    if (file[i] != "") { // Say the character, then say how many
+      std::regex regularExpression(",?[[:s:]]*(\\$?[[:w:]]+)[[:s:]]*,?");
+      std::sregex_iterator start (file[i].cbegin(), file[i].cend(), regularExpression);
+      std::sregex_iterator end;
 
-  if (file[i] != "") {
-
-
-        auto start = 0U;
-
-
-        auto end = 0;
-
-        bool done = false;
-        for (int j = 1; done == false || file[i].size() < i; j++) {
-            if (isspace(file[i].at(j))) {
-              end = j;
-              done = true;
-            }
-        }
-
-
-        ret[i].push_back(file[i].substr(start, end));
-        end + 1;
-        std::string delimiter = ",";
-        start = end + delimiter.length();
-        end = file[i].find(delimiter, start);
-        while (end != std::string::npos)
-        {
-            ret[i].push_back(file[i].substr(start, end - start));
-            start = end + delimiter.length();
-            end = file[i].find(delimiter, start);
-        }
-
-        ret[i].push_back(file[i].substr(start, end));
+      ret.insert(ret.begin() + i, std::vector<std::string>());
+      for (; start != end; start++) {
+        ret[i].push_back(start->str(1));
+      }
+    }
   }
+
+  return ret;
 }
 
-return ret;
-}
-
-
-
-int main() {
+int main(int argc, char* argv[]) {
   std::vector<std::string> file = readFile("asm.txt");
   std::vector< std::vector<std::string> > ret = parseFile(file);
-  std::cout << ret[0][0] << std::endl;
-  std::cout << ret[0][1] << std::endl;
-  std::cout << ret[0][2] << std::endl;
-  std::cout << ret[0][3] << std::endl;
+  for(auto i = ret.begin(); i != ret.end(); ++i) {
+    for(auto j = i->begin(); j != i->end(); ++j) {
+      std::cout << *j << " ";
+    }
+    std::cout << std::endl;
+  }
 
 }

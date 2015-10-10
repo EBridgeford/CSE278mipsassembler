@@ -3,28 +3,28 @@
 #include <utility>
 
 std::map<std::string, std::string> iType
-  {{"lw", "100011"},
-  {"addi", "001000"},
-  {"ori", "001101"},
-  {"andi", "001100"},
-  {"slti", "001010"},
-  {"beq", "000100"},
-  {"sw", "101011"}};
+{{"lw", "100011"},
+{"addi", "001000"},
+{"ori", "001101"},
+{"andi", "001100"},
+{"slti", "001010"},
+{"beq", "000100"},
+{"sw", "101011"}};
 
 
 std::map<std::string, std::string> rType
-  {{"or", "100101"},
-  {"add", "100000"},
-  {"sub", "100010"},
-  {"slt", "101010"},
-  {"sll", "000000"},
-  {"srl", "000010"},
-  {"jr", "001000"},
-  {"and", "100100"}};
+{{"or", "100101"},
+{"add", "100000"},
+{"sub", "100010"},
+{"slt", "101010"},
+{"sll", "000000"},
+{"srl", "000010"},
+{"jr", "001000"},
+{"and", "100100"}};
 
-  std::map<std::string, std::string> jType
-    {{"j", "000010"},
-    {"jal", "000011"}};
+std::map<std::string, std::string> jType
+{{"j", "000010"},
+{"jal", "000011"}};
 
 std::map<std::string, std::string> registers
 
