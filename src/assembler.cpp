@@ -3,6 +3,9 @@
 #include <iostream>
 #include "instructions.h"
 #include <cmath>
+#include <sstream>
+#include <bitset>
+
 bool isRType(std::vector<std::string> instruction);
 bool isIType(std::vector<std::string> instruction);
 bool isJType(std::vector<std::string> instruction);
@@ -74,4 +77,14 @@ bool isJType(std::vector<std::string> instruction) {
 
 bool inline isRegister(std::string mipsRegister) {
   return registers.find(mipsRegister) != registers.end() ? true : false;
+}
+
+std::string binaryToHex(std::string binaryString) {
+  std::stringstream ss;
+  std::bitset<32> set(binaryString);
+  std::string hexCode;
+
+  ss << std::hex << set.to_ulong();
+  ss >> hexCode;
+  return hexCode;
 }
