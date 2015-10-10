@@ -34,7 +34,7 @@ std::vector< std::vector<std::string> > parseFile(std::vector<std::string> file)
   //sub $a0,$v0,$zero
   //addi $t1, $t1, 1
   for (int i = 0; i < file.size(); i++) {
-    if (file[i] != "") { // Say the character, then say how many
+    if (file[i] != "") { // Say the character, then say how many ? * +
       std::regex regularExpression(",?[[:s:]]*(\\$?[[:w:]]+)[[:s:]]*,?");
       std::sregex_iterator start (file[i].cbegin(), file[i].cend(), regularExpression);
       std::sregex_iterator end;

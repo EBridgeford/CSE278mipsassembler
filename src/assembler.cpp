@@ -14,7 +14,7 @@ std::vector<std::string> translateInstructions(std::vector<std::string> instruct
   }
 
   if(isRType(instruction)) {
-    
+
 
   }
 
