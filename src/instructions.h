@@ -5,7 +5,7 @@
 #include <string>
 #include <utility>
 
-std::map<std::string, std::string> iType
+const std::map<std::string, std::string> iType
 {{"lw", "100011"},
 {"addi", "001000"},
 {"ori", "001101"},
@@ -14,7 +14,7 @@ std::map<std::string, std::string> iType
 {"beq", "000100"},
 {"sw", "101011"}};
 
-std::map<std::string, std::string> rType
+const std::map<std::string, std::string> rType
 {{"or", "100101"},
 {"add", "100000"},
 {"sub", "100010"},
@@ -24,11 +24,11 @@ std::map<std::string, std::string> rType
 {"jr", "001000"},
 {"and", "100100"}};
 
-std::map<std::string, std::string> jType
+const std::map<std::string, std::string> jType
 {{"j", "000010"},
 {"jal", "000011"}};
 
-std::map<std::string, std::string> registers
+const std::map<std::string, std::string> registers
 {{"$zero", "00000"}, //0
 {"$at", "00001"}, //1
 {"$v0", "00001"}, //2
