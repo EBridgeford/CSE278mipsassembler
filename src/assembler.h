@@ -1,5 +1,5 @@
-#ifndef INSTRUCTIONS_H
-#define INSTRUCTIONS_H
+#ifndef ASSEMBLER_H
+#define ASSEMBLER_H
 
 #include <string>
 #include <vector>
@@ -9,11 +9,16 @@
 
 class assembler {
 public:
-  std::vector<std::string> translateInstruction(std::vector<std::string> instruction);
+  void translateInstruction(std::vector<std::string> instruction);
   bool isRType(std::vector<std::string> instruction);
   bool isIType(std::vector<std::string> instruction);
   bool isJType(std::vector<std::string> instruction);
   bool isRegister(std::string);
+  std::string rTypeAssemble(std::vector<std::string> instruction);
+  std::string iTypeAssemble(std::vector<std::string> instruction);
+  std::string binaryToHex(std::string binaryString);
+  std::vector<std::string> getHexCodes();
+  void printer();
 private:
   std::vector<std::string> hexCodes;
 };

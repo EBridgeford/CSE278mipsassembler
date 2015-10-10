@@ -48,15 +48,3 @@ std::vector< std::vector<std::string> > parseFile(std::vector<std::string> file)
 
   return ret;
 }
-
-int main(int argc, char* argv[]) {
-  std::vector<std::string> file = readFile("asm.txt");
-  std::vector< std::vector<std::string> > ret = parseFile(file);
-  for(auto i = ret.begin(); i != ret.end(); ++i) {
-    for(auto j = i->begin(); j != i->end(); ++j) {
-      std::cout << *j << " ";
-    }
-    std::cout << std::endl;
-  }
-
-}

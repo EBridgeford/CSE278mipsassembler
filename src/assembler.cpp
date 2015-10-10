@@ -8,40 +8,36 @@
 #include "instructions.h"
 #include "assembler.h"
 
-bool isRType(std::vector<std::string> instruction);
-bool isIType(std::vector<std::string> instruction);
-bool isJType(std::vector<std::string> instruction);
-bool isRegister(std::string);
-
-
-std::string rTypeAssemble(std::vector<std::string> instruction);
-std::string iTypeAssemble(std::vector<std::string> instruction);
 
 //Returned vector is the hex representation (in text) of the mips command
-std::string translateInstruction(std::vector<std::string> instruction) {
 
-  std::string ret = "Error";
+
+
+void assembler::translateInstruction(std::vector<std::string> instruction) {
+
 
   if(instruction.size() <= 1) {
-    return ret;
+    hexCodes.push_back("ERROR");
   }
 
-  if(isRType(instruction)) {
+  else if(isRType(instruction)) {
 
-    ret = rTypeAssemble(instruction);
+    hexCodes.push_back(rTypeAssemble(instruction));
 
   }
 
-  else  if(isIType(instruction)) {
+  else if(isIType(instruction)) {
 
-      ret = iTypeAssemble(instruction);
+      hexCodes.push_back(iTypeAssemble(instruction));
 
     }
 
-  return ret;
+    else {
+      hexCodes.push_back("ERROR");
+    }
 }
 
-std::string rTypeAssemble(std::vector<std::string> instruction) {
+std::string assembler::rTypeAssemble(std::vector<std::string> instruction) {
 
   std::string ret;
   ret.reserve(32);
@@ -62,11 +58,11 @@ std::string rTypeAssemble(std::vector<std::string> instruction) {
   search = rType.find(instruction[0]);
   ret.append(search->second);
 
-
+  ret = binaryToHex(ret);
   return ret;
 }
 
-std::string iTypeAssemble(std::vector<std::string> instruction) {
+std::string assembler::iTypeAssemble(std::vector<std::string> instruction) {
 
   std::string ret;
   ret.reserve(32);
@@ -83,10 +79,11 @@ std::string iTypeAssemble(std::vector<std::string> instruction) {
   int address = std::stoi(instruction[2]);
   ret.append(std::bitset<16>(address).to_string());
 
+  ret = binaryToHex(ret);
   return ret;
 }
 
-bool isRType(std::vector<std::string> instruction) {
+bool assembler::isRType(std::vector<std::string> instruction) {
   if(instruction.size() == 4) {
     bool validOpCode = rType.find(instruction[0]) != rType.end();
     bool validRegisters = isRegister(instruction[1]) &&
@@ -99,8 +96,8 @@ bool isRType(std::vector<std::string> instruction) {
   }
 }
 
-bool isIType(std::vector<std::string> instruction) {
-  if(instruction.size() == 4) {
+bool assembler::isIType(std::vector<std::string> instruction) {
+ if (instruction.size() == 4) {
     bool validOpCode = iType.find(instruction[0]) != iType.end();
     int address;
     try {
@@ -119,7 +116,7 @@ bool isIType(std::vector<std::string> instruction) {
   }
 }
 
-bool isJType(std::vector<std::string> instruction) {
+bool assembler::isJType(std::vector<std::string> instruction) {
   if(instruction.size() == 2) {
     bool validOpCode = jType.find(instruction[0]) != jType.end();
     int address;
@@ -137,11 +134,11 @@ bool isJType(std::vector<std::string> instruction) {
   }
 }
 
-bool inline isRegister(std::string mipsRegister) {
+bool assembler::isRegister(std::string mipsRegister) {
   return registers.find(mipsRegister) != registers.end() ? true : false;
 }
 
-std::string binaryToHex(std::string binaryString) {
+std::string assembler::binaryToHex(std::string binaryString) {
   std::stringstream ss;
   std::bitset<32> set(binaryString);
   std::string hexCode;
@@ -151,14 +148,13 @@ std::string binaryToHex(std::string binaryString) {
   return hexCode;
 }
 
-int main() {
-//sw $ra,0($sp)
-  std::vector<std::string> test {{"lw"}, {"$ra"}, {"3"}, {"$sp"}};
-  std::string binary = iTypeAssemble(test);
-  std::string hex = binaryToHex(binary);
+void assembler::printer() {
 
-  std::cout << binary << std::endl;
-  std::cout << hex << std::endl;
+  for(auto i: hexCodes) {
+    std::cout << i << std::endl;
+  }
 }
 
-//100011 11111 11101 0000000000000000
+std::vector<std::string> assembler::getHexCodes() {
+  return hexCodes;
+}
