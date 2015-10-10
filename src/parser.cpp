@@ -17,7 +17,7 @@ std::vector<std::string> readFile(std::string filename) {
     getline(readFile, tempLine);
     stringVector.push_back(tempLine);
   }
-  
+
   stringVector.shrink_to_fit();
 
   return stringVector;

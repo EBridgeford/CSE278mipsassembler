@@ -1,3 +1,6 @@
+#ifndef INSTRUCTIONS_H
+#define INSTRUCTIONS_H
+
 #include <map>
 #include <string>
 #include <utility>
@@ -10,7 +13,6 @@ std::map<std::string, std::string> iType
 {"slti", "001010"},
 {"beq", "000100"},
 {"sw", "101011"}};
-
 
 std::map<std::string, std::string> rType
 {{"or", "100101"},
@@ -27,7 +29,6 @@ std::map<std::string, std::string> jType
 {"jal", "000011"}};
 
 std::map<std::string, std::string> registers
-
 {{"$zero", "00000"}, //0
 {"$at", "00001"}, //1
 {"$v0", "00001"}, //2
@@ -60,3 +61,5 @@ std::map<std::string, std::string> registers
 {"$sp", "11101"}, //29
 {"$fp", "11110"}, //30
 {"$ra", "11111"}}; //31
+
+#endif
