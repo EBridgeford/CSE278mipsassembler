@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "instructions.h"
 #include <cmath>
 
 class assembler {
