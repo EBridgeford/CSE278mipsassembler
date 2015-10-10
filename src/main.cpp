@@ -7,7 +7,7 @@
 
 int main(int argc, char* argv[]) {
 
-if (argc != 3) {
+if (argc != 2) {
 
   std::vector<std::string> file = readFile(argv[1]);
   std::vector<std::vector<std::string> > parsedFile = parseFile(file);
