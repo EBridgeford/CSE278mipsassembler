@@ -1,27 +1,89 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "instructions.h"
 #include <cmath>
 #include <sstream>
 #include <bitset>
+
+#include "instructions.h"
+#include "assembler.h"
 
 bool isRType(std::vector<std::string> instruction);
 bool isIType(std::vector<std::string> instruction);
 bool isJType(std::vector<std::string> instruction);
 bool isRegister(std::string);
+
+
+std::string rTypeAssemble(std::vector<std::string> instruction);
+std::string iTypeAssemble(std::vector<std::string> instruction);
+
 //Returned vector is the hex representation (in text) of the mips command
-std::vector<std::string> translateInstructions(std::vector<std::string> instruction) {
+std::string translateInstruction(std::vector<std::string> instruction) {
+
+  std::string ret = "Error";
+
   if(instruction.size() <= 1) {
-    return {"Error"};
+    return ret;
   }
 
   if(isRType(instruction)) {
 
+    ret = rTypeAssemble(instruction);
 
   }
 
-  return {""};
+  else  if(isIType(instruction)) {
+
+      ret = iTypeAssemble(instruction);
+
+    }
+
+  return ret;
+}
+
+std::string rTypeAssemble(std::vector<std::string> instruction) {
+
+  std::string ret;
+  ret.reserve(32);
+
+  ret.append("000000");
+
+  auto search = registers.find(instruction[2]);
+  ret.append(search->second);
+
+  search = registers.find(instruction[3]);
+  ret.append(search->second);
+
+  search = registers.find(instruction[1]);
+  ret.append(search->second);
+
+  ret.append("00000");
+
+  search = rType.find(instruction[0]);
+  ret.append(search->second);
+
+
+  return ret;
+}
+
+std::string iTypeAssemble(std::vector<std::string> instruction) {
+
+  std::string ret;
+  ret.reserve(32);
+
+  auto search = iType.find(instruction[0]);
+  ret.append(search->second);
+
+  search = registers.find(instruction[1]);
+  ret.append(search->second);
+
+  search = registers.find(instruction[3]);
+  ret.append(search->second);
+
+  int address = std::stoi(instruction[2]);
+  ret.append(std::bitset<16>(address).to_string());
+
+  return ret;
 }
 
 bool isRType(std::vector<std::string> instruction) {
@@ -88,3 +150,15 @@ std::string binaryToHex(std::string binaryString) {
   ss >> hexCode;
   return hexCode;
 }
+
+int main() {
+//sw $ra,0($sp)
+  std::vector<std::string> test {{"lw"}, {"$ra"}, {"3"}, {"$sp"}};
+  std::string binary = iTypeAssemble(test);
+  std::string hex = binaryToHex(binary);
+
+  std::cout << binary << std::endl;
+  std::cout << hex << std::endl;
+}
+
+//100011 11111 11101 0000000000000000
