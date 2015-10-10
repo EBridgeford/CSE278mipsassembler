@@ -8,7 +8,7 @@ and $v0, $a0, $v0
 ori $v0, $a0, 1024
 addi $v0, $0, 1024
 slt $s4, $s0, $t1
-slti $t, $s, 1
+slti $t0, $s1, 1
 sll $t2, $t1, 1
 srl $v0, $a0, 31
 beq $s, $t, offset
