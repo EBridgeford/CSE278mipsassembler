@@ -8,37 +8,22 @@
 #include "instructions.h"
 #include "assembler.h"
 
-
-//Returned vector is the hex representation (in text) of the mips command
-
-
-
 void assembler::translateInstruction(std::vector<std::string> instruction) {
-
-
   if(instruction.size() <= 1) {
     hexCodes.push_back("ERROR");
   }
-
   else if(isRType(instruction)) {
-
     hexCodes.push_back(rTypeAssemble(instruction));
-
   }
-
   else if(isIType(instruction)) {
-
-      hexCodes.push_back(iTypeAssemble(instruction));
-
-    }
-
-    else {
-      hexCodes.push_back("ERROR");
-    }
+    hexCodes.push_back(iTypeAssemble(instruction));
+  }
+  else {
+    hexCodes.push_back("ERROR");
+  }
 }
 
 std::string assembler::rTypeAssemble(std::vector<std::string> instruction) {
-
   std::string ret;
   ret.reserve(32);
 
@@ -63,7 +48,6 @@ std::string assembler::rTypeAssemble(std::vector<std::string> instruction) {
 }
 
 std::string assembler::iTypeAssemble(std::vector<std::string> instruction) {
-
   std::string ret;
   ret.reserve(32);
 
@@ -87,8 +71,8 @@ bool assembler::isRType(std::vector<std::string> instruction) {
   if(instruction.size() == 4) {
     bool validOpCode = rType.find(instruction[0]) != rType.end();
     bool validRegisters = isRegister(instruction[1]) &&
-                          isRegister(instruction[2]) &&
-                          isRegister(instruction[3]);
+    isRegister(instruction[2]) &&
+    isRegister(instruction[3]);
     return validOpCode && validRegisters ? true : false;
   }
   else {
@@ -97,7 +81,7 @@ bool assembler::isRType(std::vector<std::string> instruction) {
 }
 
 bool assembler::isIType(std::vector<std::string> instruction) {
- if (instruction.size() == 4) {
+  if (instruction.size() == 4) {
     bool validOpCode = iType.find(instruction[0]) != iType.end();
     int address;
     try {
@@ -108,7 +92,7 @@ bool assembler::isIType(std::vector<std::string> instruction) {
     }
     bool validAddress = address >= 0 && address <= (std::pow(2, 17) - 1);
     bool validRegisters = isRegister(instruction[1]) &&
-                          isRegister(instruction[3]);
+    isRegister(instruction[3]);
     return validOpCode && validAddress && validRegisters ? true : false;
   }
   else {
@@ -149,7 +133,6 @@ std::string assembler::binaryToHex(std::string binaryString) {
 }
 
 void assembler::printer() {
-
   for(auto i: hexCodes) {
     std::cout << i << std::endl;
   }
