@@ -3,5 +3,8 @@
 #include <vector>
 #include <string>
 
-void writeToFile(std::vector<std::string> hexCode, std::string filename);
+class fileWriter {
+public:
+  void writeToFile(std::vector<std::string> hexCode, std::string filename);
+};
 #endif
