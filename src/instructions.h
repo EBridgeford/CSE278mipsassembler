@@ -31,7 +31,7 @@ const std::map<std::string, std::string> jType
 const std::map<std::string, std::string> registers
 {{"$zero", "00000"}, //0
 {"$at", "00001"}, //1
-{"$v0", "00001"}, //2
+{"$v0", "00010"}, //2
 {"$v1", "00011"}, //3
 {"$a0", "00100"}, //4
 {"$a1", "00101"}, //5
