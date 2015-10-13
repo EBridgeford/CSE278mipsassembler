@@ -35,8 +35,19 @@ std::vector< std::vector<std::string> > parser::parseFile(std::vector<std::strin
       std::sregex_iterator end;
 
       ret.insert(ret.begin() + i, std::vector<std::string>());
-      for (; start != end; start++) {
+      for (int k = 0; start != end; start++, i++) {
         ret[i].push_back(start->str(1));
+        if(k % 3 == 0) {
+          try {
+            std::stoi(start->str(1));
+
+            std::string tempString = ret[i][ret.size() - 1];
+            ret[i][ret.size() - 1] = ret[i][ret.size() - 2];
+            ret[i][ret.size() - 2] = tempString;
+
+          }
+          catch(std::exception e) {}
+        }
       }
     }
   }
