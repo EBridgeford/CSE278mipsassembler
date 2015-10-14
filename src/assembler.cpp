@@ -14,6 +14,7 @@ void assembler::translateInstruction(std::vector<std::string> instruction) {
   // vector of hex codes.
   if(instruction.size() <= 1) {
     hexCodes.push_back("ERROR");
+    std::cout << "<= 1" << std::endl;
   }
   else if(isRType(instruction)) {
     hexCodes.push_back(rTypeAssemble(instruction));
@@ -23,6 +24,7 @@ void assembler::translateInstruction(std::vector<std::string> instruction) {
   }
   else {
     hexCodes.push_back("ERROR");
+    std::cout << "push back" << std::endl; 
   }
 }
 

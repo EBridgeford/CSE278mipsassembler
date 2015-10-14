@@ -29,7 +29,7 @@ std::vector< std::vector<std::string> > parser::parseFile(std::vector<std::strin
   // instruction, ie...{"addi", "$t1", "$t1", "1"}).
   std::vector< std::vector<std::string>> ret;
   for (int i = 0; i < file.size(); i++) {
-    if (file[i] != "") {
+    if (file[i] != "" || file[i] != "\n") {
       std::regex regularExpression(",?[[:s:]]*(\\$?[[:w:]]+)[[:s:]]*,?");
       std::sregex_iterator start (file[i].cbegin(), file[i].cend(), regularExpression);
       std::sregex_iterator end;
