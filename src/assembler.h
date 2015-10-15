@@ -18,6 +18,7 @@ private:
   bool isRegister(std::string);
   std::string rTypeAssemble(std::vector<std::string> instruction);
   std::string iTypeAssemble(std::vector<std::string> instruction);
+  std::string jTypeAssemble(std::vector<std::string> instruction);
   std::string binaryToHex(std::string binaryString);
 
   std::vector<std::string> hexCodes;

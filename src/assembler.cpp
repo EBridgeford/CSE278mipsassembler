@@ -4,6 +4,7 @@
 #include <cmath>
 #include <sstream>
 #include <bitset>
+#include <iomanip>
 
 #include "instructions.h"
 #include "assembler.h"
@@ -22,9 +23,13 @@ void assembler::translateInstruction(std::vector<std::string> instruction) {
   else if(isIType(instruction)) {
     hexCodes.push_back(iTypeAssemble(instruction));
   }
+  else if (isJType(instruction)) {
+    hexCodes.push_back(jTypeAssemble(instruction));
+  }
+
   else {
     hexCodes.push_back("ERROR");
-    std::cout << "push back" << std::endl; 
+    std::cout << "push back" << std::endl;
   }
 }
 
@@ -63,6 +68,22 @@ std::string assembler::iTypeAssemble(std::vector<std::string> instruction) {
   ret.append(search->second);
   int address = std::stoi(instruction[2]);
   ret.append(std::bitset<16>(address).to_string());
+
+  // Convert the string representation of a binary number into a string
+  // representation of a hex number. Then return it to the function caller.
+  ret = binaryToHex(ret);
+  return ret;
+}
+
+std::string assembler::jTypeAssemble(std::vector<std::string> instruction) {
+  // Build the string representation of our binary number instruction
+  std::string ret;
+  ret.reserve(32);
+
+  auto search = jType.find(instruction[0]);
+  ret.append(search->second);
+  int address = std::stoi(instruction[1]);
+  ret.append(std::bitset<26>(address).to_string());
 
   // Convert the string representation of a binary number into a string
   // representation of a hex number. Then return it to the function caller.
@@ -162,7 +183,7 @@ std::string assembler::binaryToHex(std::string binaryString) {
   std::stringstream ss;
   std::bitset<32> set(binaryString);
   std::string hexCode;
-  ss << std::hex << set.to_ulong();
+  ss << std::setfill('0') << std::setw(8) << std::hex << set.to_ulong();
   ss >> hexCode;
   return hexCode;
 }
