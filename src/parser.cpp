@@ -51,11 +51,6 @@ std::vector< std::vector<std::string> > parser::parseFile(std::vector<std::strin
           catch(std::exception e) {}
         }
       }
-      for(int a = 0; a < ret[i].size(); a++)
-      {
-        std::cout << ret[i][a] << "  ";
-      }
-      std::cout << std::endl;
     }
   }
 

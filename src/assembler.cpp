@@ -13,23 +13,25 @@ void assembler::translateInstruction(std::vector<std::string> instruction) {
   // Try to find out which type instruction the given instruction is. Then if
   // there were no errors push the hex code representation onto the internal
   // vector of hex codes.
-  if(instruction.size() <= 1) {
-    //hexCodes.push_back("ERROR");
-    std::cout << "Blank line or whitespace" << std::endl;
-  }
-  else if(isRType(instruction)) {
-    hexCodes.push_back(rTypeAssemble(instruction));
-  }
-  else if(isIType(instruction)) {
-    hexCodes.push_back(iTypeAssemble(instruction));
-  }
-  else if (isJType(instruction)) {
-    hexCodes.push_back(jTypeAssemble(instruction));
+  std::string temp = " ";
+  for(int i = 0; i < instruction.size(); i++) {
+    temp += instruction[i] + " ";
   }
 
+  if(instruction.size() <= 1) {
+    hexCodes.push_back("ERROR line or space");
+  }
+  else if(isRType(instruction)) {
+    hexCodes.push_back(rTypeAssemble(instruction) + temp);
+  }
+  else if(isIType(instruction)) {
+    hexCodes.push_back(iTypeAssemble(instruction) + temp);
+  }
+  else if (isJType(instruction)) {
+    hexCodes.push_back(jTypeAssemble(instruction) + temp);
+  }
   else {
-    hexCodes.push_back("ERROR NOT A VALID TYPE");
-    std::cout << "push back" << std::endl;
+    hexCodes.push_back("ERROR NOT A VALID TYPE" + temp);
   }
 }
 
@@ -40,27 +42,35 @@ std::string assembler::rTypeAssemble(std::vector<std::string> instruction) {
 
   ret.append("000000");
 
-  auto search = registers.find(instruction[2]);
+  // rs is in the second position unless it is an jr instruction
+  auto search = registers.find((instruction.size() == 2 ? instruction[1] : instruction[2]));
   if (search != registers.end()) {
     ret.append(search->second);
   } else {
     ret.append("00000");
   }
 
+  if(instruction.size() == 4) {
+    search = registers.find(instruction[3]);
+    ret.append(search->second);
 
-  search = registers.find(instruction[3]);
-  ret.append(search->second);
+    search = registers.find(instruction[1]);
+    ret.append(search->second);
 
-
-  search = registers.find(instruction[1]);
-  ret.append(search->second);
-
-  search = registers.find(instruction[2]);
-  if (search == registers.end()) {
-    int shamt = std::stoi(instruction[2]);
-    ret.append(std::bitset<5>(shamt).to_string());
-  } else {
-    ret.append("00000");
+    search = registers.find(instruction[2]);
+    if (search == registers.end()) {
+      try {
+        int shamt = std::stoi(instruction[2]);
+        ret.append(std::bitset<5>(shamt).to_string());
+      }
+      catch(std::exception e) {}
+    } else {
+      ret.append("00000");
+    }
+  }
+  else {
+    // 15 0's for jr special case
+    ret.append("000000000000000");
   }
 
   search = rType.find(instruction[0]);
@@ -123,22 +133,23 @@ bool assembler::isRType(std::vector<std::string> instruction) {
           secondCheck = true;
         }
       }
-      catch(std::exception e) {
-        //until I figure out a better way
-      }
+      catch(std::exception e) {}
     }
 
 
     bool validOpCode = rType.find(instruction[0]) != rType.end();
     bool validRegisters = isRegister(instruction[1]) && secondCheck && isRegister(instruction[3]);
 
-    std::cout << instruction[0] << std::endl;
-    std::cout << " Rtype opcode " << validOpCode << " Valid registers " << validRegisters << std::endl;
     // Tell the function caller whether the given instruction is a valid r
     // type instruction or not.
     return validOpCode && validRegisters ? true : false;
   }
   else {
+    if(instruction.size() == 2) {
+      bool validOpCode = rType.find(instruction[0]) != rType.end();
+      bool validRegisters = isRegister(instruction[1]);
+      return validOpCode && validRegisters ? true : false;
+    }
     // Tell the function caller that the given instruction is not a valid r
     // type instruction.
     return false;
