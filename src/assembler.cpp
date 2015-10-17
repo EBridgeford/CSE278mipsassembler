@@ -34,36 +34,34 @@ void assembler::translateInstruction(std::vector<std::string> instruction) {
 }
 
 std::string assembler::rTypeAssemble(std::vector<std::string> instruction) {
-// Build the string representation of our binary number instruction
+  // Build the string representation of our binary number instruction
   std::string ret;
   ret.reserve(32);
 
   ret.append("000000");
+
   auto search = registers.find(instruction[2]);
-  ret.append(search->second);
+  if (search != registers.end()) {
+    ret.append(search->second);
+  } else {
+    ret.append("00000");
+  }
 
 
   search = registers.find(instruction[3]);
-  if (search != registers.end()) {
-    ret.append(search->second);
-  }
-  else {
-    ret.append("000000");
-  }
+  ret.append(search->second);
+
 
   search = registers.find(instruction[1]);
   ret.append(search->second);
 
-  search = registers.find(instruction[3]);
+  search = registers.find(instruction[2]);
   if (search == registers.end()) {
     int shamt = std::stoi(instruction[2]);
     ret.append(std::bitset<5>(shamt).to_string());
-  }
-  else {
+  } else {
     ret.append("00000");
   }
-
-  ret.append("00000");
 
   search = rType.find(instruction[0]);
   ret.append(search->second);
@@ -115,8 +113,24 @@ bool assembler::isRType(std::vector<std::string> instruction) {
   if(instruction.size() == 4) {
     // Try to find the given string representation of a opcode in our map of
     // all MIPS opcodes.
+    bool secondCheck = isRegister(instruction[2]);
+
+    if (secondCheck == false) {
+
+      try {
+        int shamt = std::stoi(instruction[2]);
+        if (shamt <= (std::pow(2, 5) - 1)) {
+          secondCheck = true;
+        }
+      }
+      catch(std::exception e) {
+        //until I figure out a better way
+      }
+    }
+
+
     bool validOpCode = rType.find(instruction[0]) != rType.end();
-    bool validRegisters = isRegister(instruction[1]) && isRegister(instruction[2]) && isRegister(instruction[3]);
+    bool validRegisters = isRegister(instruction[1]) && secondCheck && isRegister(instruction[3]);
 
     std::cout << instruction[0] << std::endl;
     std::cout << " Rtype opcode " << validOpCode << " Valid registers " << validRegisters << std::endl;
@@ -153,9 +167,9 @@ bool assembler::isIType(std::vector<std::string> instruction) {
     // our map of all MIPS registers.
     bool validRegisters = isRegister(instruction[1]) && isRegister(instruction[3]);
 
-    std::cout << instruction[0];
-    std::cout << " Opcode " << validOpCode << " Address " << validAddress;
-    std::cout << " Registers " << validRegisters << std::endl;
+    //std::cout << instruction[0];
+    //std::cout << " Opcode " << validOpCode << " Address " << validAddress;
+    //std::cout << " Registers " << validRegisters << std::endl;
 
     // Tell the function caller whether the given instruction is a valid i
     // type instruction or not.
