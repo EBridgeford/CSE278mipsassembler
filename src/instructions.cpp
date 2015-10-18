@@ -11,7 +11,7 @@ void iTypeAssemble (std::vector<std::string> instruction) {
 
   search = registers.find(instruction[1]);
   std::string rs = search->second;
-
+  
   search = registers.find(instruction[2]);
   std::string rt = search->second;
 

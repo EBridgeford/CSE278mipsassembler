@@ -18,9 +18,7 @@ void assembler::translateInstruction(std::vector<std::string> instruction) {
     temp += instruction[i] + " ";
   }
 
-  if(instruction.size() <= 1) {
-    hexCodes.push_back("ERROR line or space");
-  }
+  if(instruction.size() <= 1) {} // This is a line or space. We just ignore it.
   else if(isRType(instruction)) {
     hexCodes.push_back(rTypeAssemble(instruction) + temp);
   }
